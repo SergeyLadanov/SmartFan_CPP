@@ -37,7 +37,7 @@ typedef struct __PID_Obj{
 void PID_Init(PID_Obj *hpid, float Kp, float Ki, float Kd);
 void PID_SetIntegralRange(PID_Obj *hpid, float value);
 void PID_SetSampleTime(PID_Obj *hpid, float sampleTimeVal);
-void PID_SetReverse(PID_Obj *hpid, uint8_t state);
+void PID_SetReverse(PID_Obj *hpid, bool state);
 void PID_SetTarget(PID_Obj *hpid, float value);
 float PID_Handle(PID_Obj *hpid, float inputVal);
 void PID_SetOutputRange(PID_Obj *hpid, float minValue, float maxValue);

@@ -41,7 +41,7 @@ void PID_SetSampleTime(PID_Obj *hpid, float sampleTimeVal)
 }
 
 // Установка инверсии выходного сигнала
-void PID_SetReverse(PID_Obj *hpid, uint8_t state)
+void PID_SetReverse(PID_Obj *hpid, bool state)
 {
     hpid->Reverse = state;
 }

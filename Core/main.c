@@ -5,6 +5,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 #include "pid.h"
+#include <signal.h>
 
 
 #define PIN        15U
@@ -19,6 +20,16 @@
 #define PID_KI 3.0f
 #define PID_KD 1.0f
 #define PID_KP ((RANGE_MAX - RANGE_MIN) / (TEMPERATURE_MAX - TEMPERATURE_MIN))
+
+static uint8_t Start = PID_TRUE;
+
+// Обработчик закрытия приложения
+void SigBreak_Handler(int n_signal)
+{
+    printf("Зыкрытие приложения...\r\n");
+    Start = PID_FALSE;
+}
+
 
 // Функция получения температуры процессора
 static float getTemperature() {
@@ -61,10 +72,12 @@ int main(void)
     PID_SetReverse(&hpid, PID_TRUE);
     PID_SetTarget(&hpid, TEMPERATURE_MIN);
 
+    signal(SIGINT, &SigBreak_Handler);
+
 
     if (wiringPiSetup() == 0) 
     {
-        while (1) 
+        while (Start) 
         {
             temperature = getTemperature();
             printf("Температура %2.1f\r\n", temperature);
@@ -94,6 +107,12 @@ int main(void)
 
             usleep(SAMPLE_TIME * 1000 * 1000);
         }
+
+        if (!pwmStopped)
+        {
+            softPwmStop(PIN);
+        }
+
     }
 
     return 0;  

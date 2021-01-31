@@ -14,6 +14,7 @@ extern "C" {
 #define PID_SAMPLE_TIME (1.0f)
  
 #include <stdint.h>
+#include <stdbool.h>
 
 typedef struct __PID_Obj{
     float Kp;
@@ -30,7 +31,7 @@ typedef struct __PID_Obj{
     float Xn;
     float Xn_1;
     float TargetVal;
-    uint8_t Reverse;
+    bool Reverse;
 }PID_Obj;
 
 void PID_Init(PID_Obj *hpid, float Kp, float Ki, float Kd);

@@ -17,7 +17,7 @@ void PID_Init(PID_Obj *hpid, float Kp, float Ki, float Kd)
     hpid->Xn = 0;
     hpid->Xn_1 = 0;
     hpid->TargetVal = 0;
-    hpid->Reverse = PID_FALSE;
+    hpid->Reverse = false;
 }
 
 // Установка ограничений интегрирующей части регулятора

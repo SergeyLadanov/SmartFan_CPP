@@ -6,28 +6,37 @@
 #include <stdlib.h>
 #include "pid.h"
 #include <signal.h>
+#include <stdbool.h>
 
 
 #define PIN        15U
  
 #define RANGE_MAX           900
 #define RANGE_MIN           600
- 
-#define TEMPERATURE_MAX      80.0f
-#define TEMPERATURE_MIN      60.0f
 
+// Порог включения вентилятора 
+#define TEMPERATURE_MAX      80.0f
+// Максимальное значение температуры (для расчета коэффициента пропорциональной части регулятора)
+#define TEMPERATURE_MIN      60.0f
+// Гистерезис по температуре
+#define TEMPERATURE_HYSTERESIS 5.0f
+// Время дискретизации температуры
 #define SAMPLE_TIME 1.0f
+// Коэффциент интегральной части
 #define PID_KI 3.0f
+// Коэффициент дифференциальной части
 #define PID_KD 1.0f
+// Коэффициент пропорциональной части
 #define PID_KP ((RANGE_MAX - RANGE_MIN) / (TEMPERATURE_MAX - TEMPERATURE_MIN))
 
-static uint8_t Start = PID_TRUE;
+// Флаг запуска приложения
+static bool Start = true;
 
 // Обработчик закрытия приложения
 void SigBreak_Handler(int n_signal)
 {
     printf("Зыкрытие приложения...\r\n");
-    Start = PID_FALSE;
+    Start = false;
 }
 
 
@@ -62,7 +71,7 @@ int main(void)
 {
     float temperature;
     int pwmValue;
-    uint8_t pwmStopped = PID_TRUE;
+    bool pwmStopped = true;
     PID_Obj hpid;
 
     PID_Init(&hpid, PID_KP, PID_KI, PID_KD);
@@ -88,9 +97,9 @@ int main(void)
             {
                 printf("Включение ШИМ\r\n");
                 softPwmCreate(PIN, pwmValue, RANGE_MAX);
-                pwmStopped = PID_FALSE;
+                pwmStopped = false;
             } 
-            else if (temperature >= (TEMPERATURE_MIN - 5) && !pwmStopped) 
+            else if (temperature >= (TEMPERATURE_MIN - TEMPERATURE_HYSTERESIS) && !pwmStopped) 
             {
                 printf("ШИМ активен\r\n");
                 softPwmWrite(PIN, pwmValue);
@@ -102,7 +111,7 @@ int main(void)
                     printf("Остановка ШИМ\r\n");
                     softPwmStop(PIN);
                 }
-                pwmStopped = PID_TRUE;
+                pwmStopped = true;
             }
 
             usleep(SAMPLE_TIME * 1000 * 1000);

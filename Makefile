@@ -1,12 +1,12 @@
 # Вспомогательные переменные
 # Имя компилятора
-CC = gcc
+CC = g++
 # Директория с выходными файлами
 bin_dir = Bin
 # Имя исполняемого файла
 app_name = smartfan
 # Флаги компиляции
-flags = -lwiringPi -lpthread
+flags = -lwiringPi -lpthread -fno-exceptions -fno-rtti
 #Уровень оптимизации
 optimization = -Ofast
 
@@ -28,11 +28,11 @@ app:	$(objects)
 	$(CC) $(objects) $(flags) -o $(bin_dir)/$(app_name)
 
 # Правило сборки для каталога DIR1
-$(bin_dir)/%.o: $(DIR1)/%.c
+$(bin_dir)/%.o: $(DIR1)/%.cpp
 	$(CC) $(optimization) -Wall -c $< $(header_list) $(flags) -o $@
 
 # Правило сборки для каталога DIR2
-$(bin_dir)/%.o: $(DIR2)/Src/%.c $(wildcard $(DIR2)/Inc/*.h)
+$(bin_dir)/%.o: $(DIR2)/Src/%.cpp $(wildcard $(DIR2)/Inc/*.h) $(wildcard $(DIR2)/Inc/*.hpp)
 	$(CC) $(optimization) -Wall -c $< $(header_list) $(flags) -o $@
 
 # Правило для очистки

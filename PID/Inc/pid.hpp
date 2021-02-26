@@ -27,7 +27,7 @@ private:
     float TargetVal;
     bool Reverse;
 public:
-    PID(float Kp, float Ki, float Kd);
+    PID(float kp, float ki, float kd);
     void SetIntegralRange(float value);
     void SetSampleTime(float sampleTimeVal);
     void SetReverse(bool state);

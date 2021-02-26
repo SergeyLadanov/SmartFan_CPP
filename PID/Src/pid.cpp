@@ -1,11 +1,11 @@
 #include "pid.hpp"
 
 // Инициализация объекта ПИД регулятора
-PID::PID(float Kp, float Ki, float Kd)
+PID::PID(float kp, float ki, float kd)
 {
-    Kp = Kp;
-    Ki = Ki;
-    Kd = Kd;
+    Kp = kp;
+    Ki = ki;
+    Kd = kd;
     Dt = PID_SAMPLE_TIME;
     MaxControlValue = PID_MAX_CONTROL_VALUE;
     MinControlValue = -PID_MIN_CONTROL_VALUE;
@@ -72,6 +72,7 @@ float PID::Handle(float inputVal)
     }
 
     D = (Xn - Xn_1) / Dt;
+
     Xn_1 = Xn;
 
     out = P * Kp + I * Ki + D * Kd;

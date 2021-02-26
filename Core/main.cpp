@@ -1,18 +1,19 @@
 #include <wiringPi.h>
 #include <softPwm.h>
 #include <unistd.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdlib.h>
+#include <csignal>
+#include <cstdio>
+#include <cstdint>
+#include <cstdlib>
 #include "pid.hpp"
-#include <signal.h>
 
 
-#define PIN        15U
- 
-#define RANGE_MAX           900
-#define RANGE_MIN           600
-
+// Пин для генерации ШИМ
+#define PIN        3U
+// Максимальное значение ШИМ 
+#define RANGE_MAX           800
+// Минимальное значение ШИМ
+#define RANGE_MIN           560
 // Порог включения вентилятора 
 #define TEMPERATURE_MAX      80.0f
 // Максимальное значение температуры (для расчета коэффициента пропорциональной части регулятора)
@@ -34,7 +35,7 @@ static bool Start = true;
 // Обработчик закрытия приложения
 void SigBreak_Handler(int n_signal)
 {
-    printf("Зыкрытие приложения...\r\n");
+    printf("\r\nЗыкрытие приложения...\r\n");
     Start = false;
 }
 

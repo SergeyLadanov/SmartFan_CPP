@@ -7,7 +7,7 @@
 #define PID_MIN_CONTROL_VALUE (-65536.0f)
 #define PID_SAMPLE_TIME (1.0f)
  
-#include <stdint.h>
+#include <cstdint>
 
 class PID{
 private:

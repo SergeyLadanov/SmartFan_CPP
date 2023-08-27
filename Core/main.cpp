@@ -6,10 +6,12 @@
 #include <cstdint>
 #include <cstdlib>
 #include "pid.hpp"
-
+#include "config.h"
 
 // Пин для генерации ШИМ
+#ifndef PIN
 #define PIN        3U
+#endif
 // Максимальное значение ШИМ 
 #define RANGE_MAX           800
 // Минимальное значение ШИМ

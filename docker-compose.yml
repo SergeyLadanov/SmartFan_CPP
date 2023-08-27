@@ -13,7 +13,7 @@ services:
       args:
         - TARGET=orangepi
         - BOARD_ID=18
-        - DHT_PIN=7
+        - GPIO_PIN=3
     restart: always
 #    volumes:
 #       - /sys/devices/virtual/thermal/thermal_zone0/temp:/sys/devices/virtual/thermal/thermal_zone0/temp

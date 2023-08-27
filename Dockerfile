@@ -1,7 +1,7 @@
 FROM debian:stable-slim
-ARG TARGET=simulator
+ARG TARGET=orangepi
 ARG BOARD_ID=0
-ARG GPIO_PIN=7
+ARG GPIO_PIN=3
 
 WORKDIR /app
 COPY . /app
@@ -11,7 +11,7 @@ RUN rm -r .git && \
     apt-get install git -y && \
     apt-get install sudo -y && \
     apt-get install build-essential -y && \
-    echo "#define" "GPIO_PIN" "$GPIO_PIN" >> Core/config.h &&\
+    echo "#define" "PIN" "$GPIO_PIN" >> Core/config.h &&\
     if [ "$TARGET" = "orangepi" ]; \
 	then \
 		git clone https://github.com/orangepi-xunlong/wiringOP.git && \

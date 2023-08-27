@@ -1,0 +1,26 @@
+version: '2'
+
+networks:
+  default:
+    name: local-stack
+
+services:
+  smartfan:
+    container_name: smartfan
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - TARGET=orangepi
+        - BOARD_ID=18
+        - GPIO_PIN=3
+    restart: always
+#    volumes:
+#       - /sys/devices/virtual/thermal/thermal_zone0/temp:/sys/devices/virtual/thermal/thermal_zone0/temp
+    devices:                     # required
+         - "/dev/mem:/dev/mem"
+    cap_drop:                    # optional, more secure
+         - ALL
+    cap_add:                     # required
+         - sys_rawio
+    read_only: true              # optional, more secure
